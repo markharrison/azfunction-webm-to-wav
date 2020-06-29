@@ -32,7 +32,8 @@ namespace webm2wavns
             try
             {
                 string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-                string webmstrdata = requestBody.Substring(23, requestBody.Length - 23);                  // remove "data:audio/webm;base64,"
+                int commaStart = requestBody.IndexOf(",") + 1;          // remove "data:audio/webm;base64," and similar 
+                string webmstrdata = requestBody.Substring(commaStart, requestBody.Length - commaStart);    
                 byte[] webmbytesdata = Convert.FromBase64String(webmstrdata);
                 File.WriteAllBytes(temp, webmbytesdata);
             }
